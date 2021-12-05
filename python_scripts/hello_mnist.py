@@ -1,26 +1,20 @@
 import tensorflow as tf
 import numpy as np
 import random
+from utilities import describe_categorical_dataset
 
-print(f'Running TensorFlow version {tf.__version__}')
-
-h = tf.constant('Hello')
-m = tf.constant('mnist!')
-hm = h + " " + m
-tf.print(hm)
+n_hidden_layer_nodes = 128
+hidden_dropout_rate = 0.2
+n_training_epochs = 5
 
 
-def get_dataset_information(x_train, y_train):
-    n_training_points = y_train.shape[0]
-    input_shape = x_train.shape[1:3]
-    n_categories = len(np.unique(y_train))
+def greet():
+    print(f'Running TensorFlow version {tf.__version__}')
 
-    print(f'We have {n_training_points} training points')
-    print(f'Each training point is an image of dimensions {input_shape}')
-    print(f'Within each image, the pixels run with values from {np.amin(x_train)} to {np.amax(x_train)}')
-    print(f'We see {n_categories} distinct categorical labels in the training data')
-
-    return n_training_points, input_shape, n_categories
+    h = tf.constant('Hello')
+    m = tf.constant('mnist!')
+    hm = h + " " + m
+    tf.print(hm)
 
 
 def rescale_max_1(np_array):
@@ -51,18 +45,18 @@ def untrained_point_loss(n_training_points, x_train, y_train, model, loss_fxn, e
 
 
 def main():
+    greet()
     mnist = tf.keras.datasets.mnist
     (x_train, y_train), (x_test, y_test) = mnist.load_data()
-    n_training_points, input_shape, n_categories = get_dataset_information(x_train, y_train)
+    n_training_points, input_shape, n_categories = describe_categorical_dataset(x_train, y_train)
 
     x_train, x_test = rescale_max_1(x_train), rescale_max_1(x_test)
 
-    # train a simple neural net with 128 hidden layers and a dropout layer with a dropout rate of 0.2
-    model = simple_neural_net(input_shape, n_categories, 128, 0.2)
+    model = simple_neural_net(input_shape, n_categories, n_hidden_layer_nodes, hidden_dropout_rate)
 
     cross_entropy_loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
 
-    # untrained model should give probability ~1/10 to each class for a given data point. as the categorical
+    # untrained model should give probability ~1/10 to each class for a given data point, as the categorical
     # cross entropy is the same as -log(p(true class))
     untrained_point_loss(n_training_points, x_train, y_train, model, cross_entropy_loss, -np.log(1 / 10))
 
@@ -70,7 +64,7 @@ def main():
                             loss=cross_entropy_loss,
                             metrics=['accuracy'])
 
-    model.fit(x_train, y_train, epochs=5)
+    model.fit(x_train, y_train, epochs=n_training_epochs)
     model.evaluate(x_test,  y_test, verbose=2)
 
 
