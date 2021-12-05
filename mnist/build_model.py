@@ -37,7 +37,6 @@ def untrained_point_loss(n_training_points: int, x_train: np.ndarray, y_train: n
 
 def interpret_trained_model(model, dataset: np.ndarray):
     # add softmax layer to convert logits to probabilities - should only be added after model is trained
-    print(f'The data type of the model is considered to be {type(model)}')
     probability_model = tf.keras.Sequential([model,
                                              tf.keras.layers.Softmax()])
     return probability_model.predict(dataset)

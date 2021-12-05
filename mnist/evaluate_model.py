@@ -14,14 +14,15 @@ def plot_image(image_number: int, predictions: np.ndarray, labels: np.ndarray, d
 
     plt.imshow(image, cmap=plt.cm.binary)
 
-    predicted_label = np.argmax(predictions[image_number])
+    prediction = predictions[image_number]
+    predicted_label = np.argmax(prediction)
     if predicted_label == true_label:
         color = 'blue'
     else:
         color = 'red'
 
     plt.xlabel("{} {:2.0f}% ({})".format(class_names[predicted_label],
-                                         100 * np.max(predictions),
+                                         100 * np.max(prediction),
                                          class_names[true_label]),
                color=color)
 
@@ -32,12 +33,12 @@ def plot_value_array(image_number: int, predictions: np.ndarray, labels: np.ndar
     plt.grid(False)
     plt.xticks(range(n_categories))
     plt.yticks([])
-    figure = plt.bar(range(n_categories), predictions, color="#777777")
+    all_categories = plt.bar(range(n_categories), predictions[image_number], color="#777777")
     plt.ylim([0, 1])
-    predicted_label = np.argmax(predictions)
+    predicted_label = np.argmax(predictions[image_number])
 
-    figure[predicted_label].set_color('red')
-    figure[true_label].set_color('blue')
+    all_categories[predicted_label].set_color('red')
+    all_categories[true_label].set_color('blue')
 
 
 def view_random_image(dataset_name: str, dataset: np.ndarray, labels: np.ndarray, class_names: list,
@@ -46,7 +47,7 @@ def view_random_image(dataset_name: str, dataset: np.ndarray, labels: np.ndarray
     random_image = random.randint(1, dataset_size)
 
     figure = plt.figure(figsize=(6, 3))
-    plt.set_text(f'Random image {random_image} in dataset {dataset_name}')
+    plt.title(f'Random image {random_image} in dataset {dataset_name}')
     plt.subplot(1, 2, 1)
     plot_image(random_image, predictions, labels, dataset, class_names)
     plt.subplot(1, 2, 2)
@@ -60,7 +61,7 @@ def view_n_images(n_images: int, dataset_name: str, dataset: np.ndarray, labels:
     Path(f'./{dataset_name}').mkdir(parents=True, exist_ok=True)
     n_columns = math.floor(math.sqrt(n_images))
     n_rows = math.ceil(n_images / n_columns)
-    figure = plt.figure(figsize=(2 * n_columns, 2 * n_columns))
+    figure = plt.figure(figsize=(4 * n_columns, 2 * n_columns))
 
     for i in range(n_images):
         plt.subplot(n_rows, 2 * n_columns, 2 * i + 1)

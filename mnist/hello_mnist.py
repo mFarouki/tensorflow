@@ -1,10 +1,11 @@
 import numpy as np
 import tensorflow as tf
 
-from clean_and_view import *
 from build_model import *
+from clean_and_view import version_check, initialise_data
+from evaluate_model import visualise_predictions
 
-dataset_name = 'mnist'
+dataset_name = 'digit_mnist'
 n_hidden_layer_nodes = 128
 hidden_dropout_rate = 0.2
 n_training_epochs = 5
@@ -23,7 +24,7 @@ def greet():
 
 def main():
     greet()
-    x_train, y_train, x_test, y_test, n_training_points, input_shape, n_categories = \
+    x_train, y_train, x_test, y_test, n_training_points, n_test_points, input_shape, n_categories = \
         initialise_data(tf.keras.datasets.mnist, dataset_name, class_names)
 
     model = simple_neural_net(input_shape, n_categories, n_hidden_layer_nodes, hidden_dropout_rate)
@@ -36,6 +37,9 @@ def main():
 
     model.fit(x_train, y_train, epochs=n_training_epochs)
     model.evaluate(x_test, y_test, verbose=2)
+
+    predictions = interpret_trained_model(model, x_test)
+    visualise_predictions(dataset_name, x_test, y_test, class_names, predictions, n_test_points, n_categories, 25)
 
 
 if __name__ == "__main__":
