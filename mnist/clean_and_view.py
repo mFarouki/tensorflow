@@ -1,9 +1,10 @@
 import math
 import random
-import tensorflow as tf
-import numpy as np
-import matplotlib.pyplot as plt
 from pathlib import Path
+
+import matplotlib.pyplot as plt
+import numpy as np
+import tensorflow as tf
 
 
 def version_check():
