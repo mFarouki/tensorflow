@@ -1,5 +1,6 @@
-#source ./utilities/initialise.sh
+source ./utilities/initialise.sh
 
-python python_scripts/hello_mnist.py
+python mnist/hello_mnist.py
+python mnist/fashion_mnist.py
 
-#source ./utilities/initialise.sh
+source ./utilities/clean.sh
