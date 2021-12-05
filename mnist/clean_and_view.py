@@ -46,7 +46,7 @@ def view_image(image, class_name: str, cmap='viridis'):
 
 
 def view_random_image(dataset_name: str, dataset, labels, class_names, dataset_size: int):
-    Path(f'./{dataset_name}').mkdir(parents=True, exist_ok=True)
+    Path(f'./mnist/{dataset_name}').mkdir(parents=True, exist_ok=True)
     random_image = random.randint(1, dataset_size)
 
     figure = plt.figure()

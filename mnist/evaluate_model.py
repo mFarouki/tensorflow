@@ -58,7 +58,7 @@ def view_random_image(dataset_name: str, dataset: np.ndarray, labels: np.ndarray
 
 def view_n_images(n_images: int, dataset_name: str, dataset: np.ndarray, labels: np.ndarray, class_names: list,
                   predictions: np.ndarray, n_categories: int):
-    Path(f'./{dataset_name}').mkdir(parents=True, exist_ok=True)
+    Path(f'./mnist/{dataset_name}').mkdir(parents=True, exist_ok=True)
     n_columns = math.floor(math.sqrt(n_images))
     n_rows = math.ceil(n_images / n_columns)
     figure = plt.figure(figsize=(4 * n_columns, 2 * n_columns))
