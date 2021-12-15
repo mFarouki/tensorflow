@@ -1,4 +1,3 @@
-source ./constants.sh
 source ${CONDA_PATH}
 
 if conda info --envs | grep "${tf_venv}"; then

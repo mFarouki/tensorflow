@@ -1,3 +1,4 @@
+source ../utilities/constants.sh
 source ../utilities/initialise.sh
 
 python hello_mnist.py
