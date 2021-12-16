@@ -2,6 +2,7 @@ import os
 
 from download_and_view import *
 from load_raw_datasets import *
+from preprocess_data import *
 
 imdb_url = "https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz"
 expected_top_level_contents = ['train', 'test', 'README', 'imdbEr.txt', 'imdb.vocab']
@@ -22,6 +23,10 @@ def main():
     dataset_dir = create_directory_structure()
     raw_train_dataset, raw_validation_dataset, raw_test_dataset = build_raw_datasets(dataset_dir)
     view_dataset(raw_validation_dataset)
+    vectorised_layer = apply_vectorisation(raw_train_dataset)
+    view_sample_vectorisation(raw_train_dataset, vectorised_layer)
+    train_dataset, validation_dataset, test_dataset = preprocess_dataset(raw_train_dataset), \
+        preprocess_dataset(raw_validation_dataset), preprocess_dataset(raw_test_dataset)
 
 
 if __name__ == "__main__":

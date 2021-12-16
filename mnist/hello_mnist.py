@@ -1,7 +1,7 @@
 import numpy as np
 import tensorflow as tf
 
-from build_model import *
+import build_model
 from clean_and_view import version_check, initialise_data
 from evaluate_model import visualise_predictions
 
@@ -27,18 +27,18 @@ def main():
     x_train, y_train, x_test, y_test, n_training_points, n_test_points, input_shape, n_categories = \
         initialise_data(tf.keras.datasets.mnist, dataset_name, class_names)
 
-    model = simple_neural_net(input_shape, n_categories, n_hidden_layer_nodes, hidden_dropout_rate)
+    model = build_model.simple_neural_net(input_shape, n_categories, n_hidden_layer_nodes, hidden_dropout_rate)
 
     cross_entropy_loss = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
     # untrained model should give probability ~1/10 to each class for a given data point, as the categorical
     # cross entropy is the same as -log(p(true class))
-    untrained_point_loss(n_training_points, x_train, y_train, model, cross_entropy_loss, -np.log(1 / 10))
-    model = compile_model(model, cross_entropy_loss)
+    build_model.untrained_point_loss(n_training_points, x_train, y_train, model, cross_entropy_loss, -np.log(1 / 10))
+    model = build_model.compile_model(model, cross_entropy_loss)
 
     model.fit(x_train, y_train, epochs=n_training_epochs)
     model.evaluate(x_test, y_test, verbose=2)
 
-    predictions = interpret_trained_model(model, x_test)
+    predictions = build_model.interpret_trained_model(model, x_test)
     visualise_predictions(dataset_name, x_test, y_test, class_names, predictions, n_test_points, n_categories, 25)
 
 

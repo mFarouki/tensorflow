@@ -1,6 +1,6 @@
-import math
-from random import randint
+from math import ceil, floor, sqrt
 from pathlib import Path
+from random import randint
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -61,8 +61,8 @@ def view_random_image(dataset_name: str, dataset, labels, class_names, dataset_s
 
 def view_n_images(n_images: int, dataset_name: str, dataset, labels, class_names: list):
     Path(f'./{dataset_name}').mkdir(parents=True, exist_ok=True)
-    plt_width = math.floor(math.sqrt(n_images))
-    plt_height = math.ceil(n_images / plt_width)
+    plt_width = floor(sqrt(n_images))
+    plt_height = ceil(n_images / plt_width)
     figure = plt.figure(figsize=(2 * plt_width, 2 * plt_width))
 
     for i in range(n_images):
