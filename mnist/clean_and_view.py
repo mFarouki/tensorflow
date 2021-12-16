@@ -1,5 +1,5 @@
 import math
-import random
+from random import randint
 from pathlib import Path
 
 import matplotlib.pyplot as plt
@@ -47,7 +47,7 @@ def view_image(image, class_name: str, cmap='viridis'):
 
 def view_random_image(dataset_name: str, dataset, labels, class_names, dataset_size: int):
     Path(f'./mnist/{dataset_name}').mkdir(parents=True, exist_ok=True)
-    random_image = random.randint(1, dataset_size)
+    random_image = randint(1, dataset_size)
 
     figure = plt.figure()
     view_image(dataset[random_image], class_names[labels[random_image]])
