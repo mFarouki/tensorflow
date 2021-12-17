@@ -29,7 +29,7 @@ def apply_vectorisation(raw_train_ds: tf.data.Dataset):
     return vectorised_layer
 
 
-def vectorise_text(vectorised_layer: layers.Layer, text: tf.Tensor, label: tf.Tensor):
+def vectorise_text(text: tf.Tensor, label: tf.Tensor, vectorised_layer: layers.Layer):
     text = tf.expand_dims(text, -1)
     return vectorised_layer(text), label
 
@@ -39,7 +39,7 @@ def vectorise_sample(raw_train_ds: tf.data.Dataset, vectorised_layer: layers.Lay
     review_number = random.randint(0, len(first_text_batch) - 1)
     display_info(f'Viewing vector representation of review {review_number} in the first batch')
     review, label = first_text_batch[review_number], label_batch[review_number]
-    return review, label, vectorise_text(vectorised_layer, review, label)[0][0]
+    return review, label, vectorise_text(review, label, vectorised_layer)[0][0]
 
 
 def view_sample_vectorisation(raw_train_ds: tf.data.Dataset, vectorised_layer: layers.Layer):
@@ -53,8 +53,6 @@ def view_sample_vectorisation(raw_train_ds: tf.data.Dataset, vectorised_layer: l
         print(f"{index} ---> {vectorised_layer.get_vocabulary()[index]}")
 
 
-def preprocess_dataset(raw_ds: tf.data.Dataset):
-    vectorised_ds = raw_ds.map(vectorise_text)
-    return vectorised_ds.cache().prefetch(buffer_size=AUTOTUNE)
-
-
+def preprocess_dataset(raw_ds: tf.data.Dataset, vectorised_layer: layers.Layer):
+    vectorised_ds = raw_ds.map(lambda text, label: vectorise_text(text, label, vectorised_layer))
+    return vectorised_ds.cache().prefetch(buffer_size=tf.data.AUTOTUNE)
