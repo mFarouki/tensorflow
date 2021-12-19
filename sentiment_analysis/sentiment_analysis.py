@@ -4,7 +4,9 @@ from download_and_view import download_and_unzip, check_directory_contents, read
     remove_unneeded_directories
 from load_raw_datasets import build_raw_datasets, view_dataset
 from preprocess_data import apply_vectorisation, view_sample_vectorisation, preprocess_dataset
-from build_model import embedded_neural_net, compile_model
+from train_model import train_model
+from evaluate_model import visualise_training
+from export_model import export_model
 
 imdb_url = "https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz"
 expected_top_level_contents = ['train', 'test', 'README', 'imdbEr.txt', 'imdb.vocab']
@@ -26,15 +28,15 @@ def main():
     raw_train_dataset, raw_validation_dataset, raw_test_dataset = build_raw_datasets(dataset_dir)
     view_dataset(raw_validation_dataset)
     vectorised_layer = apply_vectorisation(raw_train_dataset)
+    max_features = len(vectorised_layer.get_vocabulary())
     view_sample_vectorisation(raw_train_dataset, vectorised_layer)
     train_dataset, validation_dataset, test_dataset = \
         preprocess_dataset(raw_train_dataset, vectorised_layer), \
         preprocess_dataset(raw_validation_dataset, vectorised_layer), \
-        preprocess_dataset(raw_test_dataset,vectorised_layer)
-    model_structure = embedded_neural_net(10000)
-    model = compile_model(model_structure)
-    trained_model = model.fit(train_dataset, validation_data=validation_dataset, epochs=10)
-    loss, accuracy = model.evaluate(test_dataset)
+        preprocess_dataset(raw_test_dataset, vectorised_layer)
+    model, history = train_model(train_dataset, validation_dataset, max_features)
+    visualise_training(history, model, test_dataset)
+    model_to_export = export_model(vectorised_layer, model)
 
 
 if __name__ == "__main__":

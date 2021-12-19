@@ -28,7 +28,6 @@ def plot_image(image_number: int, predictions: np.ndarray, labels: np.ndarray, d
 
 
 def plot_value_array(image_number: int, predictions: np.ndarray, labels: np.ndarray, n_categories: int):
-    prediction = predictions[image_number]
     true_label = labels[image_number]
     plt.grid(False)
     plt.xticks(range(n_categories))
