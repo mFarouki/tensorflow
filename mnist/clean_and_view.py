@@ -1,6 +1,6 @@
-import math
-import random
+from math import ceil, floor, sqrt
 from pathlib import Path
+from random import randint
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -47,7 +47,7 @@ def view_image(image, class_name: str, cmap='viridis'):
 
 def view_random_image(dataset_name: str, dataset, labels, class_names, dataset_size: int):
     Path(f'./mnist/{dataset_name}').mkdir(parents=True, exist_ok=True)
-    random_image = random.randint(1, dataset_size)
+    random_image = randint(1, dataset_size)
 
     figure = plt.figure()
     view_image(dataset[random_image], class_names[labels[random_image]])
@@ -61,8 +61,8 @@ def view_random_image(dataset_name: str, dataset, labels, class_names, dataset_s
 
 def view_n_images(n_images: int, dataset_name: str, dataset, labels, class_names: list):
     Path(f'./{dataset_name}').mkdir(parents=True, exist_ok=True)
-    plt_width = math.floor(math.sqrt(n_images))
-    plt_height = math.ceil(n_images / plt_width)
+    plt_width = floor(sqrt(n_images))
+    plt_height = ceil(n_images / plt_width)
     figure = plt.figure(figsize=(2 * plt_width, 2 * plt_width))
 
     for i in range(n_images):
