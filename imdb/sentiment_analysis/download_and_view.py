@@ -16,7 +16,7 @@ def remove_file(file_path):
 
 def download_and_unzip(filename: str, url: str, output_directory: str):
     if not path.isdir(output_directory):
-        tf.keras.utils.get_file(filename, url, untar=True, cache_dir='.', cache_subdir='')
+        tf.keras.utils.get_file(filename, url, untar=True, cache_dir='..', cache_subdir='')
     compressed_file = path.basename(url)
     dataset_dir = path.join(path.dirname(compressed_file), output_directory)
     remove_file(path.join(path.dirname(compressed_file), compressed_file))
