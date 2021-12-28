@@ -1,28 +1,12 @@
-import os
 import sys
 sys.path.append('../../')
 
-from imdb.download_and_view import download_and_unzip, check_directory_contents, read_random_review, \
-    remove_unneeded_directories
+from imdb.download_and_view import create_directory_structure
 from load_raw_datasets import build_raw_datasets, view_dataset
 from preprocess_data import apply_vectorisation, view_sample_vectorisation, preprocess_dataset
 from train_model import train_model
 from evaluate_model import visualise_training
 from export_model import export_model
-
-imdb_url = "https://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz"
-expected_top_level_contents = ['train', 'test', 'README', 'imdbEr.txt', 'imdb.vocab']
-expected_train_contents = ['labeledBow.feat', 'urls_pos.txt', 'urls_unsup.txt', 'unsup', 'pos', 'unsupBow.feat',
-                           'urls_neg.txt', 'neg']
-
-
-def create_directory_structure():
-    dataset_dir = download_and_unzip("aclImdb_v1", imdb_url, 'aclImdb')
-    check_directory_contents(dataset_dir, expected_top_level_contents)
-    train_dir = os.path.join(dataset_dir, 'train')
-    read_random_review(train_dir)
-    remove_unneeded_directories(train_dir, 'unsup')
-    return dataset_dir
 
 
 def main():
