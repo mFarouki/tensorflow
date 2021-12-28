@@ -1,11 +1,13 @@
 import random
 import re
 import string
+import sys
 
 import tensorflow as tf
 from tensorflow.keras import layers
 
-from utilities import display_info
+sys.path.append('../../')
+from utilities.utility_functions import display_info
 
 
 def text_standardisation(input_data: tf.Tensor):

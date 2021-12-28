@@ -1,9 +1,12 @@
 import random
 import shutil
+import sys
 from os import path, listdir, remove
-from utilities import display_info
 
 import tensorflow as tf
+
+sys.path.append('../')
+from utilities.utility_functions import display_info
 
 
 def remove_file(file_path):

@@ -1,4 +1,3 @@
 .idea/
-*/__pycache__/
-
-imdb/sentiment_analysis/aclImdb/
+**/__pycache__/
+**/aclImdb/

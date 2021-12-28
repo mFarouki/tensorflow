@@ -1,6 +1,8 @@
 import os
+import sys
+sys.path.append('../../')
 
-from download_and_view import download_and_unzip, check_directory_contents, read_random_review, \
+from imdb.download_and_view import download_and_unzip, check_directory_contents, read_random_review, \
     remove_unneeded_directories
 from load_raw_datasets import build_raw_datasets, view_dataset
 from preprocess_data import apply_vectorisation, view_sample_vectorisation, preprocess_dataset

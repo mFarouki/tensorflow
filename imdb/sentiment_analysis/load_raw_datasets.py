@@ -1,5 +1,9 @@
+import sys
+
 import tensorflow as tf
-from utilities import display_info
+
+sys.path.append('../../')
+from utilities.utility_functions import display_info
 
 seed = 42
 
