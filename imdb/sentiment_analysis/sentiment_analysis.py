@@ -1,17 +1,21 @@
 import sys
+
 sys.path.append('../../')
 
-from imdb.download_and_view import create_directory_structure
-from load_raw_datasets import build_raw_datasets, view_dataset
+from imdb.download_and_view import get_data
+from imdb.load_raw_datasets import build_raw_datasets, view_dataset
 from preprocess_data import apply_vectorisation, view_sample_vectorisation, preprocess_dataset
 from train_model import train_model
 from evaluate_model import visualise_training
 from export_model import export_model
 
+batch_size = 32
+seed = 42
+
 
 def main():
-    dataset_dir = create_directory_structure()
-    raw_train_dataset, raw_validation_dataset, raw_test_dataset = build_raw_datasets(dataset_dir)
+    dataset_dir = get_data()
+    raw_train_dataset, raw_validation_dataset, raw_test_dataset = build_raw_datasets(dataset_dir, batch_size, seed)
     view_dataset(raw_validation_dataset)
     vectorised_layer = apply_vectorisation(raw_train_dataset)
     max_features = len(vectorised_layer.get_vocabulary())

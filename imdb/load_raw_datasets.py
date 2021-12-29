@@ -2,10 +2,8 @@ import sys
 
 import tensorflow as tf
 
-sys.path.append('../../')
+sys.path.append('../')
 from utilities.utility_functions import display_info
-
-seed = 42
 
 
 def define_label(raw_train_ds: tf.data.Dataset, label: int):
@@ -14,7 +12,7 @@ def define_label(raw_train_ds: tf.data.Dataset, label: int):
     return raw_train_ds.class_names[label]
 
 
-def build_raw_datasets(directory: str, batch_size=32, validation_split=0.2):
+def build_raw_datasets(directory: str, batch_size: int, seed: int, validation_split=0.2):
     display_info(f'Reading train, validation, and test sets from {directory}/train')
     train_dataset = tf.keras.preprocessing.text_dataset_from_directory(
         f'{directory}/train', batch_size=batch_size, validation_split=validation_split, subset='training', seed=seed)

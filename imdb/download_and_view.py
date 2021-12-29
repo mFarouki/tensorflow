@@ -2,6 +2,7 @@ import random
 import sys
 from os import listdir
 from pathlib import Path
+import shutil
 
 import tensorflow as tf
 
@@ -18,7 +19,7 @@ def remove_contents(parent_directory: Path, child: str):
     remove_path = parent_directory / child
     try:
         if remove_path.is_dir():
-            remove_path.rmdir()
+            shutil.rmtree(remove_path)
         elif remove_path.is_file():
             remove_path.unlink()
     except OSError:
@@ -59,7 +60,7 @@ def remove_unneeded_from_train(train_dir: Path):
         remove_contents(train_dir, item)
 
 
-def create_directory_structure():
+def get_data():
     dataset_dir = download_and_unzip("aclImdb_v1", imdb_url, output_directory)
     check_directory_contents(dataset_dir, expected_top_level_contents)
     train_dir = dataset_dir / 'train'
